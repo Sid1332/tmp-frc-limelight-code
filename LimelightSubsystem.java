@@ -17,9 +17,14 @@ public class LimelightSubsystem extends SubsystemBase {
 
     }
 
+    public void resetSpeeds() {
+        this.xSpeed = 0;
+        this.forwardSpeed = 0;
+    }
+
     @Override
     public void periodic() {
-        NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
+        NetworkTable table = NetworkTableInstance.getDefault().getTable(Constants.limelight1);
         NetworkTableEntry tx = table.getEntry("tx");
         NetworkTableEntry ty = table.getEntry("ty");
         NetworkTableEntry ta = table.getEntry("ta");
@@ -58,11 +63,10 @@ public class LimelightSubsystem extends SubsystemBase {
         }
         SmartDashboard.putNumber("id", results);
         if (results == Constants.redSpeakerID || results == Constants.blueSpeakerID) {
-        //   m_driveSubsystem.diffDrive.arcadeDrive(
+        //   m_driveSubsystem.diffDrive.arcadeDrive(s 
             this.xSpeed = val; // Math.max(0.25, Math.min(SmartDashboard.getNumber("maxRVP", 0.0), tx / SmartDashboard.getNumber("dRVP", 1))),
-            this.forwardSpeed = Constants.maxTY > ty && ty > Constants.minTY ? 0 : Math.signum(10 - ty) * 0.3;
+            this.forwardSpeed = Constants.maxSpeakerTY > ty && ty > Constants.minSpeakerTY ? 0 : Math.signum(10 - ty) * 0.3;
             return true;
-        //   );
         }
         return false;
     }
@@ -88,5 +92,18 @@ public class LimelightSubsystem extends SubsystemBase {
           }
         }
         return false;
+    }
+
+    public boolean setLedMode(String ledMode, String limelight) {
+        if (ledMode == "off") {
+            LimelightHelpers.setLEDMode_ForceOff(limelight);
+        } else if (ledMode == "on") {
+            LimelightHelpers.setLEDMode_ForceOn(limelight);
+        } else if (ledMode == "blinking") {
+            LimelightHelpers.setLEDMode_ForceBlink(limelight);
+        } else {
+            return false;
+        }
+        return true;
     }
 }
