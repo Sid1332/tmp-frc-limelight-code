@@ -30,15 +30,14 @@ public final class Constants {
   public static final double minRVP = 0.22;
   public static final double dRVP = 50;
   public static final double limelightTolerance = 2;
-  public static final double maxTY = -9.5;
-  public static final double minTY = -10.5;
-  public static final String limelight1 = "";
-  public static final String limelight2 = "limelight2";
+  public static final double maxSpeakerTY = -9.5;
+  public static final double minSpeakerTY = -10.5;
+  public static final String limelight1 = "limelight";
+  public static final String limelight2 = "limelight-two";
   public static final int redSpeakerID = 4;
   public static final int blueSpeakerID = 8;
-  // TODO: Fill with real ids
-  public static final int redAmpID = 0;
-  public static final int blueAmpID = 0;
+  public static final int redAmpID = 5;
+  public static final int blueAmpID = 6;
   // End copy Here.
 
   public static class OperatorConstants {
