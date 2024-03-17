@@ -1,0 +1,5 @@
+- `LimelightHelpers.java` goes in robot folder.
+- `LimelightSubsystem.java` goes in subsystems folder.
+- `LimelightCommand.java` goes in commands folder.
+- In `Constants.java`, start copying at `// Start copy here` and end at `// End copy Here`.
+- Copy `driveToDist()` decleration from `DriveSubsystem.java` to our drive subsystem.
