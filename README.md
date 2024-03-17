@@ -3,3 +3,4 @@
 - `LimelightCommand.java` goes in commands folder.
 - In `Constants.java`, start copying at `// Start copy here` and end at `// End copy Here`.
 - Copy `driveToDist()` decleration from `DriveSubsystem.java` to our drive subsystem.
+- NOTE: TODO's are placed within the code, make sure we follow them.
