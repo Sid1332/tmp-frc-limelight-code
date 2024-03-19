@@ -13,33 +13,25 @@ public class LimelightSubsystem extends SubsystemBase {
     public double ty = 0;
     public double xSpeed = 0;
     public double forwardSpeed = 0;
+    public boolean visionMode = false;
+
     public LimelightSubsystem() {
 
     }
 
+    /**
+     * This will reset the speed variables of this class.
+     */
     public void resetSpeeds() {
         this.xSpeed = 0;
         this.forwardSpeed = 0;
     }
 
-    @Override
-    public void periodic() {
-        NetworkTable table = NetworkTableInstance.getDefault().getTable(Constants.limelight1);
-        NetworkTableEntry tx = table.getEntry("tx");
-        NetworkTableEntry ty = table.getEntry("ty");
-        NetworkTableEntry ta = table.getEntry("ta");
-
-        //read values periodically
-        double x = tx.getDouble(0.0);
-        double y = ty.getDouble(0.0);
-        double area = ta.getDouble(0.0);
-
-        //post to smart dashboard periodically
-        SmartDashboard.putNumber("LimelightX", x);
-        SmartDashboard.putNumber("LimelightY", y);
-        SmartDashboard.putNumber("LimelightArea", area);
-    }
-
+    /**
+     * This will turn the robot towards the speaker.
+     * @param table the network table of limelight one. Limelight one is the back limelight.
+     * @return Return true if there is a change in speed variables otherwise it will return false.
+     */
     public boolean alignWithSpeaker(NetworkTable table) {
         // table.getEntry("ledMode").setNumber(3);
         double tx = table.getEntry("tx").getDouble(0.0);
@@ -71,6 +63,11 @@ public class LimelightSubsystem extends SubsystemBase {
         return false;
     }
 
+    /**
+     * This will turn the robot towards the amp.
+     * @param table the network table of limelight two. Limelight one is the front limelight.
+     * @return Return true if there is a change in speed variables otherwise it will return false.
+     */
     public boolean alignWithAmp(NetworkTable table) {
         double tx = table.getEntry("tx").getDouble(0.0);
         double val = tx / Constants.dRVP;
@@ -94,7 +91,13 @@ public class LimelightSubsystem extends SubsystemBase {
         return false;
     }
 
-    public boolean setLedMode(String ledMode, String limelight) {
+    /**
+     * Will set a limelights LEDs to a specified state
+     * @param limelight the name of limelight that needs to be changed
+     * @param ledMode the mode of the LED it needs to be changed to. Possible values are "off", "on", and "blinking".
+     * @return true if valid input, false if not.
+     */
+    public boolean setLedMode(String limelight, String ledMode) {
         if (ledMode == "off") {
             LimelightHelpers.setLEDMode_ForceOff(limelight);
         } else if (ledMode == "on") {
@@ -105,5 +108,38 @@ public class LimelightSubsystem extends SubsystemBase {
             return false;
         }
         return true;
+    }
+
+    /**
+     * Sets the vision mode of all limelights.
+     * @param mode true for april tag detection, false for driver view.
+     */
+    public void setVisionMode(boolean mode) {
+        if (mode) {
+            LimelightHelpers.setPipelineIndex(Constants.limelight1, Constants.visionPipelineID);
+            LimelightHelpers.setPipelineIndex(Constants.limelight2, Constants.visionPipelineID);
+        } else {
+            LimelightHelpers.setPipelineIndex(Constants.limelight1, Constants.drivePipelineID);
+            LimelightHelpers.setPipelineIndex(Constants.limelight2, Constants.drivePipelineID);
+        }
+        visionMode = mode;
+    }
+
+    @Override
+    public void periodic() {
+        NetworkTable table = NetworkTableInstance.getDefault().getTable(Constants.limelight1);
+        NetworkTableEntry tx = table.getEntry("tx");
+        NetworkTableEntry ty = table.getEntry("ty");
+        NetworkTableEntry ta = table.getEntry("ta");
+
+        //read values periodically
+        double x = tx.getDouble(0.0);
+        double y = ty.getDouble(0.0);
+        double area = ta.getDouble(0.0);
+
+        //post to smart dashboard periodically
+        SmartDashboard.putNumber("LimelightX", x);
+        SmartDashboard.putNumber("LimelightY", y);
+        SmartDashboard.putNumber("LimelightArea", area);
     }
 }
