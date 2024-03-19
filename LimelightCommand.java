@@ -26,21 +26,18 @@ public class LimelightCommand extends Command {
     public void initialize() {
         CameraServer.startAutomaticCapture(new HttpCamera(Constants.limelight1, "http://10.52.43.11:5800/", HttpCameraKind.kMJPGStreamer));
         CameraServer.startAutomaticCapture(new HttpCamera(Constants.limelight2, "http://10.52.43.12:5800/", HttpCameraKind.kMJPGStreamer));
-        CameraServer.startAutomaticCapture();
     }
 
     @Override
     public void execute() {
         NetworkTable table = NetworkTableInstance.getDefault().getTable(Constants.limelight1);
-        // TODO: set button to available button.
         m_limelightSubsystem.resetSpeeds();
-        if (Constants.mainStick.getRawButton(2)) {
+        if (Constants.mainStick.getRawButton(3)) {
             m_limelightSubsystem.alignWithSpeaker(table);
         } //else {
         // table.getEntry("ledMode").setNumber(0);
     //   }
-        // TODO: set button to available button.
-        if (Constants.mainStick.getRawButton(3)) {
+        if (Constants.mainStick.getRawButton(5)) {
             m_limelightSubsystem.alignWithAmp(table);
         }
         m_driveSubsystem.diffDrive.arcadeDrive(m_limelightSubsystem.xSpeed, m_limelightSubsystem.forwardSpeed);
