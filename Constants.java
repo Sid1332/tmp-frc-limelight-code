@@ -38,6 +38,8 @@ public final class Constants {
   public static final int blueSpeakerID = 8;
   public static final int redAmpID = 5;
   public static final int blueAmpID = 6;
+  public static final int drivePipelineID = 0;
+  public static final int visionPipelineID = 1;
   // End copy Here.
 
   public static class OperatorConstants {
